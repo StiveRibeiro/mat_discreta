@@ -1,3 +1,13 @@
+#A função deste código é instalar todas as bibliotecas necessárias para que funcione corretamente o software. Apenas executar uma vez este arquivo para realizar a instalação e logo após o arquivo principal "Prog_grafos.py" já pode ser executado.
+
+#Alunos:
+ #- Alexandre Raul Fontoura Gonçalves - ra: 181239
+ #- Arthur Fernandes Castanheira - ra: 191107
+ #- Celso Campaia Ribeiro - ra: 191153
+ #- João Vitor Ribeiro - ra: 191318
+ #- Mateus Soltosky Dallamico- ra: 189763
+ #- Pedro Henrique Morais Galeano - ra: 189810
+
 import importlib
 import subprocess
 
