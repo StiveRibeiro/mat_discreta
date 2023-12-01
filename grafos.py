@@ -1,12 +1,21 @@
+#integrante do grupo:Alexandre Raul; Arthur Fernandes; Celso Campaia; João Vitor Ribeiro Souza; Mateus Soltosky Dallamico; Pedro Henrique Morais
+#O código funciona para criar grafos e obter as propriedades referentes aos grafos criados. Ao iniciar o programa, começará uma tela de menu informando qual opção o usuário deseja escolher. Os grafos criados podem ser salvos, e aparecerão numa pasta com o nome "grafos". O usuário poderá escolher 2 grafos pré definidos para uma exemplificação. Após criados, poderá vizualizar novamente os grafos salvos ou excluí-los se desejar.
+#Após criado o grafo, será mostrada uma imagem representando-o para que fique melhor a compreensão do usuário; juntamente com a imagem do grafo completo, a arvore de geradora mínima será mostrada.
+
+#iniciando o codigo:
+
+#bibliotecas usadas para melhorar a experiencia e possibilitar certas aplicações.
 import networkx as nx
 import matplotlib.pyplot as plt
 from collections import deque
 import pickle
 import os
 
+#comando para rodar em qualquer usuario e abrir uma pasta com nome grafos.
 username = os.getlogin()
 caminho = f"/home/{username}/grafos"
 
+#funçao para as opções dos grafos ao usuario escolher no menu.
 def opcoes_grafo(case):
     if case == '1':
         return criar_grafo()
@@ -32,7 +41,7 @@ def opcoes_grafo(case):
         G = nx.Graph(grafo)
         mst = nx.minimum_spanning_tree(G)
         return G, mst
-        
+    #segundo menu, acionado apos o usuário escolher ver alguma propriedade mais específica de grafos.   
     elif case in ('6', '7', '8', '9'):
         inp = input("Qual grafo deseja analisar? (1 - Novo Grafo, 2 - Grafo Pronto 1, 3 - Grafo Pronto 2, 4 - Grafo Salvo): ")
         if inp == '1':
@@ -101,7 +110,8 @@ def opcoes_grafo(case):
         mst = nx.minimum_spanning_tree(G)
         return G, mst   
                 
-
+#função para inicar a criação do grafo após ser selecionada no menu a criação.
+#grafo criado apartir do input do usuário dos vértices do grafo, e a quais vizinhos cada vértice tem.
 def criar_grafo():
     vertices = list(input("Insira uma sequência de vértices (Ex.: abcd): "))
     arestas = []
@@ -134,6 +144,7 @@ def criar_grafo():
          
     return G, mst
 
+#função para mostrar o numero cromático total do grafo.
 def numero_cromatico(grafo):
     vertices = list(grafo.nodes())
     coloracao = {} 
@@ -156,7 +167,7 @@ def numero_cromatico(grafo):
 
     return numero_cromatico
 
-
+#função para mostrar todos os grafos salvos na pasta "grafo" do usuário.
 def mostrar_grafos_salvos():
     if not os.path.exists(caminho):
         os.makedirs(caminho)
@@ -165,7 +176,7 @@ def mostrar_grafos_salvos():
     print("Arquivos de grafos salvos:")
     for arquivo in arquivos:
         print(arquivo)
-        
+#função para a remoção de um grafo salvo nos arquivos do usuário, se não existir nenhum na pasta "grafos", um aviso que a pasta está vazia será mostrado.      
 def remover_grafo_salvo():
     mostrar_grafos_salvos()
     nome_arquivo = input("Digite o nome do arquivo que deseja remover: ")
@@ -177,17 +188,19 @@ def remover_grafo_salvo():
     else:
         print(f'O arquivo {nome_arquivo} não existe no diretório de grafos salvos.')        
         
-        
+#função para conferir se o grafo selecionado é conexo       
 def e_conexo(grafo):
     connected_components = list(nx.connected_components(grafo))
     return len(connected_components) == 1
 
+#função para conferir se o grafo selecionado é completo  
 def e_completo(grafo):
     num_vertices = len(grafo)
     num_arestas = len(grafo.edges())
     max_arestas = num_vertices * (num_vertices - 1) / 2
     return num_arestas == max_arestas
 
+#função para conferir se o grafo selecionado é regular   
 def e_regular(grafo):
     graus = dict(grafo.degree)
     grau_primeiro_vertice = graus[list(grafo.nodes())[0]]  
@@ -199,11 +212,12 @@ def e_regular(grafo):
     return True
 
 
-
+#função para conferir se o grafo selecionado é euleriano  
 def e_euleriano(grafo):
     return nx.is_eulerian(grafo)                
         
-        
+
+#Menu do programa com tendo opções para o usuário; se selecionada uma opção que não está especificada no menu uma mensagem de erro será mostrada.      
 while True:
     print('Informe o que deseja fazer:')
     print('"0" ---> sair do programa')
@@ -271,7 +285,7 @@ while True:
                     fila.append((vizinho, distancia + 1))
 
         return visitados
-
+#função que calcula o raio do grafo.
     def calcular_raio(grafo):
         raio = float('inf')
 
@@ -285,7 +299,7 @@ while True:
         return raio
 
     raio = calcular_raio(G)
-
+#função para calcular perímetro.
     def calcular_perimetro(grafo):
         perimetro = 0
 
@@ -314,6 +328,7 @@ while True:
     print('Perímetro do grafo:', perimetro)
     1
     
+#função para criar e mostrar as imagens dos grafos para o usuário.
     plt.figure(figsize=(12, 6))
     
     plt.subplot(121)
